@@ -340,17 +340,4 @@
         width: 100%;
         height: 100%;
     }
-
-    :global(.layer-control) {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        background: white;
-        padding: 10px;
-        border: 1px solid #666;
-        border-radius: 4px;
-        font-size: 14px;
-        z-index: 1000;
-        box-shadow: 2px 2px 4px #333;
-    }
 </style>
