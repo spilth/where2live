@@ -21,8 +21,7 @@
 
   const toggleLayer = (layerTitle: string, isVisible: boolean) => {
     if (map) {
-      const layers = map.getLayers().getArray();
-      layers.forEach((layer) => {
+      map.getLayers().getArray().forEach((layer) => {
         if (layer.get('title') === layerTitle) {
           layer.setVisible(isVisible);
         }
@@ -38,11 +37,10 @@
   const setupMap = (node: HTMLElement) => {
     const costOfLivingStyle = (feature: Feature): Style => {
       const index = feature.get('Cost of Living Index');
-      const fillColor = `rgba(0,0,0, ${(index - 79) / 100})`;
 
       return new Style({
         fill: new Fill({
-          color: fillColor
+          color: `rgba(0,0,0, ${(index - 79) / 100})`
         }),
         stroke: stateOutline
       });
@@ -65,11 +63,10 @@
         default:
           alpha = 0.0;
       }
-      const fillColor = `rgba(0,0,0, ${alpha})`;
 
       return new Style({
         fill: new Fill({
-          color: fillColor
+          color: `rgba(0,0,0, ${alpha})`
         }),
         stroke: stateOutline
       });
@@ -77,11 +74,10 @@
 
     const educationStyle = (feature: Feature): Style => {
       const rank = feature.get('Ranking');
-      const fillColor = `rgba(0,0,0, ${(rank - 1) / (50 - 1)})`;
 
       return new Style({
         fill: new Fill({
-          color: fillColor
+          color: `rgba(0,0,0, ${(rank - 1) / (50 - 1)})`
         }),
         stroke: stateOutline
       });
@@ -89,11 +85,10 @@
 
     const fiberStyle = (feature: Feature): Style => {
       const rank = feature.get('Rank');
-      const fillColor = `rgba(0,0,0, ${(rank - 1) / (50 - 1)})`;
 
       return new Style({
         fill: new Fill({
-          color: fillColor
+          color: `rgba(0,0,0, ${(rank - 1) / (50 - 1)})`
         }),
         stroke: stateOutline
       });
@@ -101,11 +96,10 @@
 
     const homicidesStyle = (feature: Feature): Style => {
       const per100k = feature.get('Homicides per 100k');
-      const fillColor = `rgba(0,0,0, ${per100k / 24})`;
 
       return new Style({
         fill: new Fill({
-          color: fillColor
+          color: `rgba(0,0,0, ${per100k / 24})`
         }),
         stroke: stateOutline
       });
