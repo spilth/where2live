@@ -205,7 +205,7 @@
 
     <p>An evolving collection of data to help folks choose which state to live in.</p>
 
-    <p>The dark the state, the worse the ranking/assessment for a given factor.</p>
+    <p>The darker the state, the worse the ranking/assessment for a given factor.</p>
 
     <p>
       The <a
