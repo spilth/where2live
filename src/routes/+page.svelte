@@ -355,6 +355,7 @@
     <h2>Resources</h2>
 
     <ul>
+      <li><a href="https://github.com/spilth/where2live">Project Source Code</a></li>
       <li><a href="https://knowhere.live">Knowhere to Live</a></li>
       <li><a href="https://www.moveindigo.org">MoveIndigo</a></li>
       <li><a href="https://worldpopulationreview.com">World Population Review</a></li>

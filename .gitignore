@@ -24,3 +24,6 @@ vite.config.ts.timestamp-*
 
 # Local Netlify folder
 .netlify
+
+# Python Virtual Environment
+.venv
