@@ -12,12 +12,13 @@
 
   let map: Map | null = null;
 
-  let costOfLivingEnabled = $state(false);
+  let costOfLivingEnabled = $state(true);
   let educationEnabled = $state(false);
   let fiberEnabled = $state(false);
-  let harrisVotesEnabled = $state(true);
+  let harrisVotesEnabled = $state(false);
   let homicidesEnabled = $state(false);
   let marijuanaEnabled = $state(false);
+  let abortionEnabled = $state(false);
 
   const toggleLayer = (layerTitle: string, isVisible: boolean) => {
     if (map) {
@@ -41,6 +42,26 @@
       return new Style({
         fill: new Fill({
           color: `rgba(0,0,0, ${(index - 79) / 100})`
+        }),
+        stroke: stateOutline
+      });
+    };
+
+    const abortionStyle = (feature: Feature): Style => {
+      const status = feature.get('Status of Abortion');
+
+      const lookup = {
+        'Abortion banned': 1.0,
+        'Gestational limit between 6 and 12 weeks LMP': 0.75,
+        'Gestational limit between 15 and 22 weeks LMP': 0.5,
+        'Gestational limit at or near viability': 0.25,
+        'No gestational limits': 0.0
+      };
+
+      const alpha = lookup[status];
+      return new Style({
+        fill: new Fill({
+          color: `rgba(0,0,0, ${alpha})`
         }),
         stroke: stateOutline
       });
@@ -125,7 +146,16 @@
         }),
         new VectorLayer({
           source: new VectorSource({
-            url: 'states_marijuana.geojson',
+            url: 'states_data.geojson',
+            format: new GeoJSON()
+          }),
+          style: abortionStyle,
+          title: 'Abortion Bans Status',
+          visible: false
+        }),
+        new VectorLayer({
+          source: new VectorSource({
+            url: 'states_data.geojson',
             format: new GeoJSON()
           }),
           style: marijuanaStyle,
@@ -134,7 +164,7 @@
         }),
         new VectorLayer({
           source: new VectorSource({
-            url: 'states_homicides.geojson',
+            url: 'states_data.geojson',
             format: new GeoJSON()
           }),
           style: homicidesStyle,
@@ -143,7 +173,7 @@
         }),
         new VectorLayer({
           source: new VectorSource({
-            url: 'states_fiber.geojson',
+            url: 'states_data.geojson',
             format: new GeoJSON()
           }),
           style: fiberStyle,
@@ -152,16 +182,16 @@
         }),
         new VectorLayer({
           source: new VectorSource({
-            url: 'states_election.geojson',
+            url: 'states_data.geojson',
             format: new GeoJSON()
           }),
           style: harrisVotesStyle,
           title: 'Harris Votes',
-          visible: true
+          visible: false
         }),
         new VectorLayer({
           source: new VectorSource({
-            url: 'states_education.geojson',
+            url: 'states_data.geojson',
             format: new GeoJSON()
           }),
           style: educationStyle,
@@ -170,12 +200,12 @@
         }),
         new VectorLayer({
           source: new VectorSource({
-            url: 'states_cost_of_living.geojson',
+            url: 'states_data.geojson',
             format: new GeoJSON()
           }),
           style: costOfLivingStyle,
           title: 'Cost of Living',
-          visible: false
+          visible: true
         })
       ],
       view: new View({
@@ -218,6 +248,25 @@
 
     <table>
       <tbody>
+      <tr>
+        <td>
+          <label><input
+            type="checkbox"
+            bind:checked={abortionEnabled}
+            onchange={() => {
+                  toggleLayer('Abortion Bans Status', abortionEnabled);
+                }}
+          /> Abortion Bans Status
+          </label>
+        </td
+        >
+        <td>
+          <a
+            href="https://www.kff.org/womens-health-policy/dashboard/abortion-in-the-u-s-dashboard/"
+          >Source</a>
+        </td>
+      </tr>
+
       <tr>
         <td>
           <label><input
@@ -303,6 +352,22 @@
       </tbody>
     </table>
 
+    <h2>Resources</h2>
+
+    <ul>
+      <li><a href="https://knowhere.live">Knowhere to Live</a></li>
+      <li><a href="https://www.moveindigo.org">MoveIndigo</a></li>
+      <li><a href="https://worldpopulationreview.com">World Population Review</a></li>
+      <li><a href="https://www.census.gov">U.S. Census Bureau</a></li>
+    </ul>
+
+    <h2>Updates</h2>
+
+    <dl>
+      <dt>2024-11-26</dt>
+      <dd>Added layer for Status of Abortion Bans</dd>
+    </dl>
+
     <h2>About</h2>
 
     <p>Feedback can be sent to <a href="mailto:brian@spilth.org">brian@spilth.org</a></p>
@@ -323,15 +388,22 @@
         display: flex;
         width: 100%;
         height: 100%;
+        overflow: hidden;
     }
 
     #about {
+        min-width: 256px;
         width: 25%;
-        padding: 8px;
+        padding: 12px;
+        overflow: auto;
     }
 
     #map {
         width: 100%;
         height: 100%;
+    }
+
+    dt {
+        font-weight: bold;
     }
 </style>
